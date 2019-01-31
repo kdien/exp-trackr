@@ -27,7 +27,6 @@ namespace ExpTrackr.Models
         [DataType(DataType.Currency)]
         public decimal TotalExpense { get; set; }
 
-        //Fullname:  readonly property
         [Display(Name = "Name")]
         public string FullName
         {

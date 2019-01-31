@@ -12,7 +12,7 @@ namespace ExpTrackr.Models
         public int CategoryID { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]
+        [StringLength(50, ErrorMessage = "Category name cannot be longer than 50 characters.")]
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
 
