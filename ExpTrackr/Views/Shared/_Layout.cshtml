@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,9 +24,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ExpTrackr</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-GreenC border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand ml-lg-4" asp-area="" asp-controller="Home" asp-action="Index">ExpTrackr</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +38,15 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-user-secret"></i> Privacy</a>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a class="nav-link text-light" asp-area="" asp-controller="Budget" asp-action="Index"><i class="fas fa-dollar-sign"></i> My Budgets</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-dollar-sign"></i> My Budgets</a>
+                            }
+
                         </li>
                     </ul>
                 </div>
@@ -52,7 +63,7 @@
     <footer class="border-top footer text-light bg-dark">
         <div class="container">
             &copy; 2019 - <a class="text-white" asp-area="" asp-controller="Home" asp-action="index">ExpTrackr</a> - <a class="text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-</div>
+        </div>
     </footer>
 
     <environment include="Development">

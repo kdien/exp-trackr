@@ -41,7 +41,13 @@ button.accept-policy {
     padding-top: 0;
 }
 
+
+h1 {
+    font-size: 3.5em;
+}
+
 h2 {
+    font-size: 2em;
     font-weight: 100;
 }
 
@@ -78,4 +84,27 @@ body {
     /* Set the fixed height of the footer here */
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
+}
+
+/* Color theme stuff */
+.bg-GreenC {
+    background-color: rgb(70,140,70);
+}
+
+.bg-boxes {
+    background-color: rgb(215,255,215);
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link, .btn-primary {
+    background: rgb(70,140,70);
+    border: none;
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: rgb(90,160,90)
+    }
+
+a {
+    color: black;
 }
