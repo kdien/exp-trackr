@@ -1,28 +1,25 @@
 ﻿@model IEnumerable<ExpTrackr.Models.Budget>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Budgets";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary ">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.BudgetName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BudgetMax)
+                @Html.DisplayNameFor(model => model.BudgetTotal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BudgetTotal)
+                @Html.DisplayNameFor(model => model.BudgetMax)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreationDate)
@@ -34,16 +31,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.BudgetName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BudgetMax)
+                @Html.DisplayFor(modelItem => item.BudgetTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BudgetTotal)
+                @Html.DisplayFor(modelItem => item.BudgetMax)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreationDate)
