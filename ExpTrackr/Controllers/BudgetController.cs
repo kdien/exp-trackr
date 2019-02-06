@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpTrackr.Data;
 using ExpTrackr.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpTrackr.Controllers
 {
+    [Authorize]
     public class BudgetController : Controller
     {
         private readonly ExpTrackrContext _context;
