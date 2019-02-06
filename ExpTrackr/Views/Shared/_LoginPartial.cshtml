@@ -1,12 +1,17 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject ExpTrackr.Data.ExpTrackrContext Context
+
+@{
+    var user = Context.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-smile-beam"></i> Hello @User.Identity.Name!</a>
+        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-smile-beam"></i> Hello @user.FirstName!</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
