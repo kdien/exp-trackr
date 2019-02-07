@@ -62,14 +62,14 @@ namespace ExpTrackr.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
+            var aspUser = await _userManager.GetUserAsync(User);
+            if (aspUser == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userName = await _userManager.GetUserNameAsync(currentUser);
-            var email = await _userManager.GetEmailAsync(currentUser);
+            var userName = await _userManager.GetUserNameAsync(aspUser);
+            var email = await _userManager.GetEmailAsync(aspUser);
 
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
 
@@ -82,7 +82,7 @@ namespace ExpTrackr.Areas.Identity.Pages.Account.Manage
                 Email = email,
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(currentUser);
+            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(aspUser);
 
             return Page();
         }
@@ -94,20 +94,23 @@ namespace ExpTrackr.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
+            var aspUser = await _userManager.GetUserAsync(User);
+            if (aspUser == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var email = await _userManager.GetEmailAsync(currentUser);
+            var email = await _userManager.GetEmailAsync(aspUser);
             
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             user.FirstName = Input.FirstName;
             user.LastName = Input.LastName;
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
             
-            await _signInManager.RefreshSignInAsync(currentUser);
+            await _signInManager.RefreshSignInAsync(aspUser);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

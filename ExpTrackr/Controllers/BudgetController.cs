@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ExpTrackr.Data;
 using ExpTrackr.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpTrackr.Controllers
 {
@@ -15,34 +16,43 @@ namespace ExpTrackr.Controllers
     public class BudgetController : Controller
     {
         private readonly ExpTrackrContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BudgetController(ExpTrackrContext context)
+        public BudgetController(ExpTrackrContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Budget
         public async Task<IActionResult> Index()
         {
-            var expTrackrContext = _context.Budgets.Include(b => b.User);
-            return View(await expTrackrContext.ToListAsync());
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
+
+            var budgets = _context.Budgets.Where(b => b.UserID == user.UserID);
+
+            return View(await budgets.ToListAsync());
         }
 
         // GET: Budget/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
+
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
 
             var budget = await _context.Budgets
-                .Include(b => b.User)
-                .FirstOrDefaultAsync(m => m.BudgetID == id);
+                .FirstOrDefaultAsync(b => b.BudgetID == id && b.UserID == user.UserID);
+
             if (budget == null)
-            {
                 return NotFound();
-            }
 
             return View(budget);
         }
@@ -50,7 +60,6 @@ namespace ExpTrackr.Controllers
         // GET: Budget/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
@@ -61,13 +70,26 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
+
+            budget.UserID = user.UserID;
+            budget.BudgetTotal = 0;
+            budget.CreationDate = DateTime.Now.Date;
+
             if (ModelState.IsValid)
             {
                 _context.Add(budget);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", budget.UserID);
+
+            ViewData["UserID"] = budget.UserID;
+            ViewData["BudgetTotal"] = budget.BudgetTotal;
+            ViewData["CreationDate"] = budget.CreationDate;
+
             return View(budget);
         }
 
@@ -75,16 +97,21 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null)
-            {
+            var user = GetUser();
+
+            if (user == null)
                 return NotFound();
-            }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", budget.UserID);
+
+            var budget = await _context.Budgets
+                .FirstOrDefaultAsync(b => b.BudgetID == id && b.UserID == user.UserID);
+
+            if (budget == null)
+                return NotFound();
+
+            ViewData["UserID"] = budget.UserID;
+
             return View(budget);
         }
 
@@ -96,9 +123,7 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
             if (id != budget.BudgetID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -110,17 +135,13 @@ namespace ExpTrackr.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!BudgetExists(budget.BudgetID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", budget.UserID);
+
             return View(budget);
         }
 
@@ -128,17 +149,18 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
+
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
 
             var budget = await _context.Budgets
-                .Include(b => b.User)
-                .FirstOrDefaultAsync(m => m.BudgetID == id);
+                .FirstOrDefaultAsync(b => b.BudgetID == id && b.UserID == user.UserID);
+
             if (budget == null)
-            {
                 return NotFound();
-            }
 
             return View(budget);
         }
@@ -148,15 +170,33 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var budget = await _context.Budgets.FindAsync(id);
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
+
+            var budget = await _context.Budgets
+                .FirstOrDefaultAsync(b => b.BudgetID == id && b.UserID == user.UserID);
+
             _context.Budgets.Remove(budget);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool BudgetExists(int id)
         {
             return _context.Budgets.Any(e => e.BudgetID == id);
+        }
+
+        private User GetUser()
+        {
+            var aspUserEmail = _userManager.GetUserName(User);
+
+            if (aspUserEmail == null)
+                return null;
+
+            return _context.Users.FirstOrDefault(u => u.Email == aspUserEmail);
         }
     }
 }

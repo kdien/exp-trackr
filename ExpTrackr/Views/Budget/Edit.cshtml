@@ -13,6 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BudgetID" />
+            <input type="hidden" asp-for="UserID" value="@ViewData["UserID"]" />
             <div class="form-group">
                 <label asp-for="BudgetName" class="control-label"></label>
                 <input asp-for="BudgetName" class="form-control" />
@@ -25,8 +26,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
+                <input asp-for="CreationDate" class="form-control" readonly="readonly" />
                 <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BudgetTotal" class="control-label"></label>
+                <input asp-for="BudgetTotal" class="form-control" readonly="readonly" />
+                <span asp-validation-for="BudgetTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
