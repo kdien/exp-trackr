@@ -102,9 +102,34 @@ body {
 }
 
     .btn-primary:hover {
-        background: rgb(90,160,90)
+        background: rgb(90,160,90);
+    }
+    .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+        background: rgb(30,100,30);
+        border: none;
+    }
+        .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5)
+        }
+
+.btn-secondary {
+    background-color: rgb(140,70,70);
+    border: none;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background: rgb(160,90,90);
     }
 
-a {
-    color: black;
-}
+    .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
+        background: rgb(100,30,30);
+        border: none;
+    }
+
+        .btn-srimary:not(:disabled):not(.disabled):active:focus, .btn-srimary:not(:disabled):not(.disabled).active:focus, .show > .btn-srimary.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(160, 90, 90, 0.5)
+        }
+        a {
+            color: black;
+        }

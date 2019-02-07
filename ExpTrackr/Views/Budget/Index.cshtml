@@ -30,8 +30,10 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetName)
+            <td class="font-weight-bold text-center">
+                <a asp-controller="Expense" asp-action="Index" asp-route-id="@item.BudgetID">
+                    @Html.DisplayFor(modelItem => item.BudgetName)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BudgetTotal)
