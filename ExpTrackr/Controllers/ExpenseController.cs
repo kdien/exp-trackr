@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpTrackr.Data;
 using ExpTrackr.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace ExpTrackr.Controllers
 {
+    [Authorize]
     public class ExpenseController : Controller
     {
         private readonly ExpTrackrContext _context;
@@ -27,13 +29,18 @@ namespace ExpTrackr.Controllers
         {
             if (budgetId == null)
                 return NotFound();
-
+            
             var budget = GetBudget(budgetId);
 
             if (budget == null)
                 return NotFound();
 
-            return View(await _context.Expenses.Where(e => e.BudgetID == budget.BudgetID).ToListAsync());
+            var expenses = await _context.Expenses
+                .Include(e => e.Category)
+                .Where(e => e.BudgetID == budget.BudgetID)
+                .ToListAsync();
+
+            return View(expenses);
         }
 
         // GET: Expenses/Create
@@ -63,7 +70,10 @@ namespace ExpTrackr.Controllers
             {
                 _context.Add(expense);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                UpdateBudgetTotal(expense.BudgetID);
+
+                return RedirectToAction("Index", new { budgetId = expense.BudgetID });
             }
 
             return View(expense);
@@ -117,8 +127,11 @@ namespace ExpTrackr.Controllers
                         throw;
                 }
 
-                return RedirectToAction(nameof(Index));
+                UpdateBudgetTotal(expense.BudgetID);
+
+                return RedirectToAction("Index", new { budgetId = expense.BudgetID });
             }
+
 
             return View(expense);
         }
@@ -135,9 +148,9 @@ namespace ExpTrackr.Controllers
                 return NotFound();
 
             var expense = await _context.Expenses
-                .Include(e => e.Budget)
                 .Include(e => e.Category)
-                .FirstOrDefaultAsync(e => e.ExpenseID == id && e.BudgetID == budget.BudgetID);
+                .Where(e => e.ExpenseID == id && e.BudgetID == budget.BudgetID)
+                .SingleOrDefaultAsync();
 
             if (expense == null)
                 return NotFound();
@@ -148,30 +161,24 @@ namespace ExpTrackr.Controllers
         // POST: Expenses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, Expense expense)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (id != expense.ExpenseID)
+            var expense = _context.Expenses.SingleOrDefault(e => e.ExpenseID == id);
+
+            if (expense == null)
                 return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Expenses.Remove(expense);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExpenseExists(expense.ExpenseID))
-                        return NotFound();
-                    else
-                        throw;
-                }
+            var budget = GetBudget(expense.BudgetID);
 
-                return RedirectToAction(nameof(Index));
-            }
+            if (budget == null)
+                return NotFound();
 
-            return View(expense);
+            _context.Expenses.Remove(expense);
+            await _context.SaveChangesAsync();
+
+            UpdateBudgetTotal(budget.BudgetID);
+
+            return RedirectToAction("Index", new { budgetId = expense.BudgetID });
         }
 
         private bool ExpenseExists(int id)
@@ -221,7 +228,29 @@ namespace ExpTrackr.Controllers
             if (user == null)
                 return;
 
-            ViewBag["CategoryList"] = new SelectList(_context.Categories.Where(c => c.UserID == user.UserID), "CategoryID", "CategoryName");
+            ViewBag.CategoryList = new SelectList(_context.Categories.Where(c => c.UserID == user.UserID), "CategoryID", "CategoryName");
+        }
+
+        private void UpdateBudgetTotal(int? id)
+        {
+            if (id == null)
+                return;
+
+            var budget = GetBudget(id);
+
+            var expenses = _context.Expenses
+                .Where(e => e.BudgetID == budget.BudgetID)
+                .ToList();
+
+            decimal budgetTotal = 0;
+
+            foreach (var expense in expenses)
+                budgetTotal += expense.Amount;
+
+            budget.BudgetTotal = budgetTotal;
+
+            _context.Update(budget);
+            _context.SaveChanges();
         }
     }
 }

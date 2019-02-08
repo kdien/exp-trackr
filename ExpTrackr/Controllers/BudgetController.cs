@@ -37,29 +37,25 @@ namespace ExpTrackr.Controllers
             return View(await budgets.ToListAsync());
         }
 
-        // GET: Budget/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Budget/Create
+        public IActionResult Create()
         {
-            if (id == null)
-                return NotFound();
-
             var user = GetUser();
 
             if (user == null)
                 return NotFound();
 
-            var budget = await _context.Budgets
-                .FirstOrDefaultAsync(b => b.BudgetID == id && b.UserID == user.UserID);
+            var budget = new Budget()
+            {
+                UserID = user.UserID,
+                BudgetTotal = 0,
+                CreationDate = DateTime.Now.Date
+            };
 
-            if (budget == null)
-                return NotFound();
+            ViewData["UserID"] = budget.UserID;
+            ViewData["BudgetTotal"] = budget.BudgetTotal;
+            ViewData["CreationDate"] = budget.CreationDate;
 
-            return View(budget);
-        }
-
-        // GET: Budget/Create
-        public IActionResult Create()
-        {
             return View();
         }
 
@@ -70,25 +66,12 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
-            var user = GetUser();
-
-            if (user == null)
-                return NotFound();
-
-            budget.UserID = user.UserID;
-            budget.BudgetTotal = 0;
-            budget.CreationDate = DateTime.Now.Date;
-
             if (ModelState.IsValid)
             {
                 _context.Add(budget);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["UserID"] = budget.UserID;
-            ViewData["BudgetTotal"] = budget.BudgetTotal;
-            ViewData["CreationDate"] = budget.CreationDate;
 
             return View(budget);
         }

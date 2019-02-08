@@ -16,7 +16,6 @@ namespace ExpTrackr.Models
         public int BudgetID { get; set; }
 
         public virtual Category Category { get; set; }
-        [Display(Name = "Category")]
         public int CategoryID { get; set; }
 
         public string Description { get; set; }

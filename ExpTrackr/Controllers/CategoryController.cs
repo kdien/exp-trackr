@@ -7,45 +7,51 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpTrackr.Data;
 using ExpTrackr.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpTrackr.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ExpTrackrContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CategoryController(ExpTrackrContext context)
+        public CategoryController(ExpTrackrContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
-        }
+            var user = GetUser();
 
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
+            if (user == null)
                 return NotFound();
-            }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryID == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+            var categories = _context.Categories.Where(c => c.UserID == user.UserID);
 
-            return View(category);
+            return View(await categories.ToListAsync());
         }
 
         // GET: Categories/Create
         public IActionResult Create()
         {
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
+
+            var category = new Category
+            {
+                UserID = user.UserID
+            };
+
+            ViewData["UserID"] = category.UserID;
+
             return View();
         }
 
@@ -54,7 +60,7 @@ namespace ExpTrackr.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,UserID")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +68,7 @@ namespace ExpTrackr.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(category);
         }
 
@@ -69,15 +76,21 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
+            var user = GetUser();
+
+            if (user == null)
                 return NotFound();
-            }
+
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.CategoryID == id && c.UserID == user.UserID);
+
+            if (category == null)
+                return NotFound();
+
+            ViewData["UserID"] = category.UserID;
+
             return View(category);
         }
 
@@ -86,12 +99,10 @@ namespace ExpTrackr.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName,UserID")] Category category)
         {
             if (id != category.CategoryID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -103,16 +114,13 @@ namespace ExpTrackr.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CategoryExists(category.CategoryID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(category);
         }
 
@@ -120,16 +128,18 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
+
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
 
             var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryID == id);
+                .FirstOrDefaultAsync(c => c.CategoryID == id && c.UserID == user.UserID);
+
             if (category == null)
-            {
                 return NotFound();
-            }
 
             return View(category);
         }
@@ -139,15 +149,33 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var user = GetUser();
+
+            if (user == null)
+                return NotFound();
+
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.CategoryID == id && c.UserID == user.UserID);
+
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.CategoryID == id);
+        }
+
+        private User GetUser()
+        {
+            var aspUserEmail = _userManager.GetUserName(User);
+
+            if (aspUserEmail == null)
+                return null;
+
+            return _context.Users.FirstOrDefault(u => u.Email == aspUserEmail);
         }
     }
 }
