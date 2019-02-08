@@ -37,5 +37,7 @@ namespace ExpTrackr.Models
         }
 
         public virtual ICollection<Budget> Budgets { get; set; }
+
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

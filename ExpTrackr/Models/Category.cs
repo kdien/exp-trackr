@@ -16,6 +16,9 @@ namespace ExpTrackr.Models
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
 
+        public int UserID { get; set; }
+        public virtual User User { get; set; }
+
         public virtual ICollection<Expense> Expenses { get; set; }
     }
 }

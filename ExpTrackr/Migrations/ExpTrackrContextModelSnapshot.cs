@@ -55,7 +55,11 @@ namespace ExpTrackr.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("UserID");
+
                     b.HasKey("CategoryID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Categories");
                 });
@@ -115,6 +119,14 @@ namespace ExpTrackr.Migrations
                 {
                     b.HasOne("ExpTrackr.Models.User", "User")
                         .WithMany("Budgets")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ExpTrackr.Models.Category", b =>
+                {
+                    b.HasOne("ExpTrackr.Models.User", "User")
+                        .WithMany("Categories")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

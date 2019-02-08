@@ -31,7 +31,7 @@
 @foreach (var item in Model) {
         <tr>
             <td class="font-weight-bold text-center">
-                <a asp-controller="Expense" asp-action="Index" asp-route-id="@item.BudgetID">
+                <a asp-controller="Expense" asp-action="Index" asp-route-budgetId="@item.BudgetID">
                     @Html.DisplayFor(modelItem => item.BudgetName)
                 </a>
             </td>

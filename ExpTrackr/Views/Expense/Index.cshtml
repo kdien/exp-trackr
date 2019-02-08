@@ -1,26 +1,24 @@
-﻿@model IEnumerable<ExpTrackr.Models.Expense>
+﻿@model IEnumerable<Expense>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Expenses";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["BudgetName"]</h1>
+
+<p><span class="font-weight-bold">Limit: </span>@ViewData["BudgetMax"]</p>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New</a>
-    <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create New Category</a>
+    <a class="btn btn-primary" asp-action="Create" asp-route-budgetId="@ViewData["BudgetID"]">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Budget)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
@@ -29,26 +27,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Budget.BudgetName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ExpenseID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ExpenseID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ExpenseID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (Model.Any())
+        {
+            <tr>
+                <td colspan="2" class="text-right font-weight-bold pr-5">Total</td>
+                <td class="font-weight-bold">@ViewData["BudgetTotal"]</td>
+            </tr>
+        }
     </tbody>
 </table>

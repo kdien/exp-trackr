@@ -13,14 +13,10 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ExpenseID" />
-            <div class="form-group">
-                <label asp-for="BudgetID" class="control-label"></label>
-                <select asp-for="BudgetID" class="form-control" asp-items="ViewBag.BudgetID"></select>
-                <span asp-validation-for="BudgetID" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="BudgetID" value="@ViewData["BudgetID"]" />
             <div class="form-group">
                 <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryList"></select>
                 <span asp-validation-for="CategoryID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,7 +37,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]">Back to List</a>
 </div>
 
 @section Scripts {
