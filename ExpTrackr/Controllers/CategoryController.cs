@@ -64,6 +64,16 @@ namespace ExpTrackr.Controllers
         {
             category.CategoryName = category.CategoryName.Trim();
 
+            var existingCategory = await _context.Categories
+                .SingleOrDefaultAsync(c => c.CategoryName.ToLower() == category.CategoryName.ToLower() && c.UserID == category.UserID);
+
+            if (existingCategory != null)
+            {
+                ModelState.AddModelError(string.Empty, "This category already exists");
+                ViewData["UserID"] = category.UserID;
+                return View(category);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(category);
@@ -107,6 +117,16 @@ namespace ExpTrackr.Controllers
                 return NotFound();
 
             category.CategoryName = category.CategoryName.Trim();
+
+            var existingCategory = await _context.Categories
+                .SingleOrDefaultAsync(c => c.CategoryName.ToLower() == category.CategoryName.ToLower() && c.UserID == category.UserID);
+
+            if (existingCategory != null)
+            {
+                ModelState.AddModelError(string.Empty, "This category already exists");
+                ViewData["UserID"] = category.UserID;
+                return View(category);
+            }
 
             if (ModelState.IsValid)
             {

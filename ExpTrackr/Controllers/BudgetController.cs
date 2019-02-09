@@ -68,6 +68,16 @@ namespace ExpTrackr.Controllers
         {
             budget.BudgetName = budget.BudgetName.Trim();
 
+            var existingBudget = await _context.Budgets
+                .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID);
+
+            if (existingBudget != null)
+            {
+                ModelState.AddModelError(string.Empty, "This budget already exists");
+                ViewData["UserID"] = budget.UserID;
+                return View(budget);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(budget);
@@ -111,6 +121,16 @@ namespace ExpTrackr.Controllers
                 return NotFound();
 
             budget.BudgetName = budget.BudgetName.Trim();
+
+            var existingBudget = await _context.Budgets
+                .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID);
+
+            if (existingBudget != null)
+            {
+                ModelState.AddModelError(string.Empty, "This budget already exists");
+                ViewData["UserID"] = budget.UserID;
+                return View(budget);
+            }
 
             if (ModelState.IsValid)
             {
