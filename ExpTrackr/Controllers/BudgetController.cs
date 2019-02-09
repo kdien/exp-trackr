@@ -66,6 +66,8 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
+            budget.BudgetName = budget.BudgetName.Trim();
+
             if (ModelState.IsValid)
             {
                 _context.Add(budget);
@@ -107,6 +109,8 @@ namespace ExpTrackr.Controllers
         {
             if (id != budget.BudgetID)
                 return NotFound();
+
+            budget.BudgetName = budget.BudgetName.Trim();
 
             if (ModelState.IsValid)
             {

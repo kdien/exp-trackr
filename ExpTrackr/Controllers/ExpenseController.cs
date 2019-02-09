@@ -66,6 +66,8 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ExpenseID,BudgetID,CategoryID,Description,Amount")] Expense expense)
         {
+            expense.Description = expense.Description.Trim();
+
             if (ModelState.IsValid)
             {
                 _context.Add(expense);
@@ -111,6 +113,8 @@ namespace ExpTrackr.Controllers
         {
             if (id != expense.ExpenseID)
                 return NotFound();
+
+            expense.Description = expense.Description.Trim();
 
             if (ModelState.IsValid)
             {

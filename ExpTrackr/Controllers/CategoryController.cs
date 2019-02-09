@@ -62,6 +62,8 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,UserID")] Category category)
         {
+            category.CategoryName = category.CategoryName.Trim();
+
             if (ModelState.IsValid)
             {
                 _context.Add(category);
@@ -103,6 +105,8 @@ namespace ExpTrackr.Controllers
         {
             if (id != category.CategoryID)
                 return NotFound();
+
+            category.CategoryName = category.CategoryName.Trim();
 
             if (ModelState.IsValid)
             {
