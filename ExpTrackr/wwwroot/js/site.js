@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(function () {
+    // Make the whole budget row clickable
+    $("#BudgetTable tbody tr")
+        .click(function () {
+            window.location = $(this).find("a[href*='Expense']").attr("href");
+        })
+        .hover(function () {
+            $(this).toggleClass("hover");
+        });
+});

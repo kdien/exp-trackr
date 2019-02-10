@@ -6,12 +6,14 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary ">Create New</a>
+<p class="mb-3">
+    <a asp-action="Create" class="btn btn-primary" title="Create new budget"><i class="fas fa-plus"></i> New Budget</a>
 </p>
-<table class="table">
+
+<table class="table table-hover" id="BudgetTable">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.BudgetName)
             </th>
@@ -24,31 +26,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreationDate)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td class="font-weight-bold text-center">
-                <a asp-controller="Expense" asp-action="Index" asp-route-budgetId="@item.BudgetID">
+        @foreach (var item in Model)
+        {
+            var totalWarning = "";
+            if (item.BudgetTotal > item.BudgetMax)
+            {
+                totalWarning = "font-weight-bold text-danger";
+            }
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BudgetID" title="Edit" class="mr-2"><i class="fas fa-edit text-warning"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.BudgetID" title="Delete" class="mr-4"><i class="fas fa-trash-alt text-danger"></i></a>
+                    <a asp-controller="Expense" asp-action="Index" asp-route-budgetId="@item.BudgetID"></a>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.BudgetName)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetMax)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BudgetID">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.BudgetID">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td class="@totalWarning">
+                    @Html.DisplayFor(modelItem => item.BudgetTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BudgetMax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
