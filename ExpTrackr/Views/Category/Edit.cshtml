@@ -15,7 +15,7 @@
             <div class="form-row">
                 <div class="col-10">
                     <input asp-for="CategoryName" class="form-control" />
-                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["DuplicateNameErrorMessage"]</span>
                 </div>
                 <div class="col">
                     <button type="submit" class="btn btn-primary">

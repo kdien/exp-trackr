@@ -62,14 +62,25 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,UserID")] Category category)
         {
-            category.CategoryName = category.CategoryName.Trim();
+            ViewData["DuplicateNameErrorMessage"] = "";
+
+            try
+            {
+                category.CategoryName = category.CategoryName.Trim();
+            }
+            catch (NullReferenceException)
+            {
+                ViewData["DuplicateNameErrorMessage"] = "Category name cannot be empty";
+                ViewData["UserID"] = category.UserID;
+                return View(category);
+            }
 
             var existingCategory = await _context.Categories
                 .SingleOrDefaultAsync(c => c.CategoryName.ToLower() == category.CategoryName.ToLower() && c.UserID == category.UserID);
 
             if (existingCategory != null)
             {
-                ModelState.AddModelError(string.Empty, "This category already exists");
+                ViewData["DuplicateNameErrorMessage"] = "This category already exists";
                 ViewData["UserID"] = category.UserID;
                 return View(category);
             }
@@ -116,14 +127,25 @@ namespace ExpTrackr.Controllers
             if (id != category.CategoryID)
                 return NotFound();
 
-            category.CategoryName = category.CategoryName.Trim();
+            ViewData["DuplicateNameErrorMessage"] = "";
+
+            try
+            {
+                category.CategoryName = category.CategoryName.Trim();
+            }
+            catch (NullReferenceException)
+            {
+                ViewData["DuplicateNameErrorMessage"] = "Category name cannot be empty";
+                ViewData["UserID"] = category.UserID;
+                return View(category);
+            }
 
             var existingCategory = await _context.Categories
                 .SingleOrDefaultAsync(c => c.CategoryName.ToLower() == category.CategoryName.ToLower() && c.UserID == category.UserID);
 
             if (existingCategory != null)
             {
-                ModelState.AddModelError(string.Empty, "This category already exists");
+                ViewData["DuplicateNameErrorMessage"] = "This category already exists";
                 ViewData["UserID"] = category.UserID;
                 return View(category);
             }

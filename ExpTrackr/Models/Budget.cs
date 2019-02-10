@@ -14,7 +14,7 @@ namespace ExpTrackr.Models
         public virtual User User { get; set; }
         public int UserID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Budget name cannot be empty")]
         [StringLength(50, ErrorMessage = "Budget name cannot be longer than 50 characters.")]
         [Display(Name = "Name")]
         public string BudgetName { get; set; }

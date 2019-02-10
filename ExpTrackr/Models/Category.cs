@@ -11,7 +11,7 @@ namespace ExpTrackr.Models
     {
         public int CategoryID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Category name cannot be empty")]
         [StringLength(50, ErrorMessage = "Category name cannot be longer than 50 characters.")]
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }

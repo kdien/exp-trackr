@@ -152,14 +152,6 @@ a:hover, a:focus {
     text-decoration: none;
 }
 
-form[action*="Category"] div.validation-summary-errors li, form[action*="Budget"] div.validation-summary-errors li {
-    list-style-type: none;
-}
-
-tr.hover {
+#BudgetTable tbody tr.hover {
     cursor: pointer;
-}
-
-tr td a:hover {
-    color: unset;
 }

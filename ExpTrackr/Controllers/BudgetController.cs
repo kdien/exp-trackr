@@ -66,15 +66,30 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
-            budget.BudgetName = budget.BudgetName.Trim();
+            ViewData["DuplicateNameErrorMessage"] = "";
+
+            try
+            {
+                budget.BudgetName = budget.BudgetName.Trim();
+            }
+            catch (NullReferenceException)
+            {
+                ViewData["DuplicateNameErrorMessage"] = "Budget name cannot be empty";
+                ViewData["UserID"] = budget.UserID;
+                ViewData["BudgetTotal"] = budget.BudgetTotal;
+                ViewData["CreationDate"] = budget.CreationDate;
+                return View(budget);
+            }
 
             var existingBudget = await _context.Budgets
                 .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID);
 
             if (existingBudget != null)
             {
-                ModelState.AddModelError(string.Empty, "This budget already exists");
+                ViewData["DuplicateNameErrorMessage"] = "This budget already exists";
                 ViewData["UserID"] = budget.UserID;
+                ViewData["BudgetTotal"] = budget.BudgetTotal;
+                ViewData["CreationDate"] = budget.CreationDate;
                 return View(budget);
             }
 
@@ -120,14 +135,25 @@ namespace ExpTrackr.Controllers
             if (id != budget.BudgetID)
                 return NotFound();
 
-            budget.BudgetName = budget.BudgetName.Trim();
+            ViewData["DuplicateNameErrorMessage"] = "";
+
+            try
+            {
+                budget.BudgetName = budget.BudgetName.Trim();
+            }
+            catch (NullReferenceException)
+            {
+                ViewData["DuplicateNameErrorMessage"] = "Budget name cannot be empty";
+                ViewData["UserID"] = budget.UserID;
+                return View(budget);
+            }
 
             var existingBudget = await _context.Budgets
                 .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID);
 
             if (existingBudget != null)
             {
-                ModelState.AddModelError(string.Empty, "This budget already exists");
+                ViewData["DuplicateNameErrorMessage"] = "This budget already exists";
                 ViewData["UserID"] = budget.UserID;
                 return View(budget);
             }
