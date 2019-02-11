@@ -144,6 +144,10 @@ body {
     border-color: rgb(235,235,235);
 }
 
+.btn-link.text-light:hover {
+    color: #dae0e5 !important;
+}
+
 a {
     color: black;
 }

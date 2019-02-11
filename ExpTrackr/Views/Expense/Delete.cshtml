@@ -1,14 +1,15 @@
 ﻿@model ExpTrackr.Models.Expense
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Expense";
 }
 
-<h1>Delete</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this expense from your @ViewData["BudgetName"] budget?</h3>
+<h4>Are you sure you want to delete the following expense from your @ViewData["BudgetName"] budget?</h4>
+<hr />
+
 <div>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Category)
@@ -32,7 +33,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ExpenseID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger mr-2" />
+        <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]" class="btn btn-light">Cancel</a>
     </form>
 </div>

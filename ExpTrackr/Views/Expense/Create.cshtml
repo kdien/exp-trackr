@@ -1,12 +1,12 @@
 ﻿@model ExpTrackr.Models.Expense
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Expense";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Expense for @ViewData["BudgetName"] Budget</h4>
+<h4>@ViewData["BudgetName"] Budget</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="BudgetID" value="@ViewData["BudgetID"]" />
             <div class="form-group">
                 <label for="CategoryID" class="control-label">Category</label>
-                <select asp-for="CategoryID" class ="form-control" asp-items="ViewBag.CategoryList"></select>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryList"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -28,14 +28,11 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary mr-2" />
+                <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]" class="btn btn-light">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]">Back to List</a>
 </div>
 
 @section Scripts {
