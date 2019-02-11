@@ -149,7 +149,7 @@ namespace ExpTrackr.Controllers
             }
 
             var existingBudget = await _context.Budgets
-                .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID);
+                .SingleOrDefaultAsync(b => b.BudgetName.ToLower() == budget.BudgetName.ToLower() && b.UserID == budget.UserID && b.BudgetID != budget.BudgetID);
 
             if (existingBudget != null)
             {
