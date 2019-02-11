@@ -71,8 +71,6 @@ namespace ExpTrackr.Controllers
                 _context.Add(expense);
                 await _context.SaveChangesAsync();
 
-                UpdateBudgetTotal(expense.BudgetID);
-
                 return RedirectToAction("Index", new { budgetId = expense.BudgetID });
             }
 
@@ -127,8 +125,6 @@ namespace ExpTrackr.Controllers
                         throw;
                 }
 
-                UpdateBudgetTotal(expense.BudgetID);
-
                 return RedirectToAction("Index", new { budgetId = expense.BudgetID });
             }
 
@@ -175,8 +171,6 @@ namespace ExpTrackr.Controllers
 
             _context.Expenses.Remove(expense);
             await _context.SaveChangesAsync();
-
-            UpdateBudgetTotal(budget.BudgetID);
 
             return RedirectToAction("Index", new { budgetId = expense.BudgetID });
         }
@@ -229,28 +223,6 @@ namespace ExpTrackr.Controllers
                 return;
 
             ViewBag.CategoryList = new SelectList(_context.Categories.Where(c => c.UserID == user.UserID), "CategoryID", "CategoryName");
-        }
-
-        private void UpdateBudgetTotal(int? id)
-        {
-            if (id == null)
-                return;
-
-            var budget = GetBudget(id);
-
-            var expenses = _context.Expenses
-                .Where(e => e.BudgetID == budget.BudgetID)
-                .ToList();
-
-            decimal budgetTotal = 0;
-
-            foreach (var expense in expenses)
-                budgetTotal += expense.Amount;
-
-            budget.BudgetTotal = budgetTotal;
-
-            _context.Update(budget);
-            _context.SaveChanges();
         }
     }
 }
