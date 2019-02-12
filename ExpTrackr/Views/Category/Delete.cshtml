@@ -6,7 +6,8 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>Are you sure you want to delete category @Html.DisplayFor(model => model.CategoryName)?</p>
+<h5 class="font-weight-normal">Are you sure you want to delete category @Html.DisplayFor(model => model.CategoryName)?</h5>
+<p class="text-danger"><strong>WARNING:</strong> This will delete <strong>all expenses</strong> associated with this category.</p>
 <div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="CategoryID" />
