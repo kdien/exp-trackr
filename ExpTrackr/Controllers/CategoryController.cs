@@ -62,6 +62,11 @@ namespace ExpTrackr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,UserID")] Category category)
         {
+            var user = GetUser();
+
+            if (user.UserID != category.UserID)
+                return NotFound();
+
             ViewData["DuplicateNameErrorMessage"] = "";
 
             try
@@ -125,6 +130,11 @@ namespace ExpTrackr.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName,UserID")] Category category)
         {
             if (id != category.CategoryID)
+                return NotFound();
+
+            var user = GetUser();
+
+            if (user.UserID != category.UserID)
                 return NotFound();
 
             ViewData["DuplicateNameErrorMessage"] = "";
