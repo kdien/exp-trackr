@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExpTrackr.Models.Category>
+﻿@model ExpTrackr.Models.ViewModels.CategoryViewModel
 
 @{
     ViewData["Title"] = "My Categories";
@@ -10,16 +10,39 @@
     <a asp-action="Create" class="btn btn-primary" title="Add new category"><i class="fas fa-plus"></i> New Category</a>
 </p>
 
-<ul class="list-group list-group-flush mb-5">
-    @foreach (var item in Model)
+<ul class="list-group list-group-flush mb-4">
+    @foreach (var item in Model.Categories)
     {
-        <li class="list-group-item">
-            <a asp-action="Edit" asp-route-id="@item.CategoryID" title="Edit" class="mr-2"><i class="fas fa-edit text-warning"></i></a>
-            <a asp-action="Delete" asp-route-id="@item.CategoryID" title="Delete" class="mr-4"><i class="fas fa-trash-alt text-danger"></i></a>
-            @Html.DisplayFor(modelItem => item.CategoryName)
+        <li class="list-group-item d-flex">
+            <div class="col-sm-2 col-lg-1 pl-0">
+                <a asp-action="Edit" asp-route-id="@item.CategoryID" title="Edit" class="mr-2"><i class="fas fa-edit text-warning"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.CategoryID" title="Delete"><i class="fas fa-trash-alt text-danger"></i></a>
+            </div>
+            <div class="col-sm-10 col-lg-11">
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </div>
         </li>
     }
+
+    <li class="list-group-item">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row justify-content-around">
+                <div class="col-sm-2 col-lg-1">
+                    <button type="submit" class="btn btn-primary ">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="col-sm-10 col-lg-11">
+                    <input asp-for="CategoryName" class="form-control border-0 input-boxshadow" />
+                    <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["DuplicateNameErrorMessage"]</span>
+                </div>
+            </div>
+            <input type="hidden" asp-for="UserID" value="@ViewData["UserID"]" />
+        </form>
+    </li>
 </ul>
+
 
 <br />
 <p>

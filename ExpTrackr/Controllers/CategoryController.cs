@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpTrackr.Data;
 using ExpTrackr.Models;
+using ExpTrackr.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
@@ -32,9 +33,18 @@ namespace ExpTrackr.Controllers
             if (user == null)
                 return NotFound();
 
-            var categories = _context.Categories.Where(c => c.UserID == user.UserID);
+            ViewData["UserID"] = user.UserID;
 
-            return View(await categories.ToListAsync());
+            //var categories = _context.Categories.Where(c => c.UserID == user.UserID);
+
+            //return View(await categories.ToListAsync());
+            var viewModel = new CategoryViewModel
+            {
+                Users = _context.Users.Where(u => u.UserID == user.UserID),
+                Categories = _context.Categories.Where(c => c.UserID == user.UserID)
+            };
+
+            return View(viewModel);
         }
 
         // GET: Categories/Create
@@ -60,7 +70,7 @@ namespace ExpTrackr.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName,UserID")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryName,UserID")] Category category)
         {
             var user = GetUser();
 

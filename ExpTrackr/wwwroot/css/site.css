@@ -159,3 +159,8 @@ a:hover, a:focus {
 #BudgetTable tbody tr.hover {
     cursor: pointer;
 }
+
+.input-boxshadow {
+    box-shadow: -5px 5px 20px #CCC;
+    margin-left: 12px;
+}
