@@ -30,5 +30,8 @@ BEGIN
 
 		FETCH NEXT FROM db_cursor INTO @BudgetID
 	END
+
+	CLOSE db_cursor
+	DEALLOCATE db_cursor
 END
 GO
