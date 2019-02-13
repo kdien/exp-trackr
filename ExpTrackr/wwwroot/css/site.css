@@ -113,11 +113,13 @@ body {
     }
 
         .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);
+            /*box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);*/
+            box-shadow: none;
         }
 
     .btn-primary:focus, btn-primary.focus {
-        box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);
+        /*box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);*/
+        box-shadow: none;
     }
 
 .btn-secondary {
@@ -163,4 +165,17 @@ a:hover, a:focus {
 .input-boxshadow {
     box-shadow: -5px 5px 20px #CCC;
     margin-left: 12px;
+}
+
+#CreateCategoryForm {
+    display: none;
+}
+
+.button-click, .button-click:hover {
+    background-color: rgb(56, 110, 56)
+}
+
+.rotate {
+    transform: rotate(45deg);
+    transition-duration: .25s;
 }

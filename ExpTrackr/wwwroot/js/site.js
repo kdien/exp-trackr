@@ -7,4 +7,10 @@
         .hover(function () {
             $(this).toggleClass("hover");
         });
+
+    $("#CreateCategoryButton").click(function () {
+        $(this).find("i").toggleClass("rotate");
+        $(this).toggleClass("button-click");
+        $("#CreateCategoryForm").toggle(400);
+    });
 });
