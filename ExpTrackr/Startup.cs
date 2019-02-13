@@ -74,7 +74,9 @@ namespace ExpTrackr
             {
                 routes.MapRoute(
                     name: "expense",
-                    template: "{controller=Home}/{action=Index}/{budgetId?}/{id?}");
+                    template: "Expense/{action}/{budgetId}/{id?}",
+                    defaults: new { controller = "Expense", action = "Index" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
