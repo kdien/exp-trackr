@@ -6,40 +6,77 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p class="mb-3">
-    <a asp-action="Create" class="btn btn-primary" title="Add new category"><i class="fas fa-plus"></i> New Category</a>
-</p>
+@*<p class="mb-3">
+        <a asp-action="Create" class="btn btn-primary" title="Add new category"><i class="fas fa-plus"></i> New Category</a>
+    </p>*@
 
 <ul class="list-group list-group-flush mb-4">
     @foreach (var item in Model.Categories)
     {
-        <li class="list-group-item d-flex">
-            <div class="col-sm-2 col-lg-1 pl-0">
-                <a asp-action="Edit" asp-route-id="@item.CategoryID" title="Edit" class="mr-2"><i class="fas fa-edit text-warning"></i></a>
-                <a asp-action="Delete" asp-route-id="@item.CategoryID" title="Delete"><i class="fas fa-trash-alt text-danger"></i></a>
+        <li class="list-group-item">
+            <div class="row" style="max-width: 50%">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 pl-0">
+                    @*<a asp-action="Edit" asp-route-id="@item.CategoryID" title="Edit" class="mr-2"><i class="fas fa-edit text-warning"></i></a>*@
+                    <a href="" title="Edit" class="mr-2 EditCategoryButton">
+                        <i class="fas fa-edit text-warning"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.CategoryID" title="Delete"><i class="fas fa-trash-alt text-danger"></i></a>
+                </div>
+                <div class="col-6">
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </div>
             </div>
-            <div class="col-sm-10 col-lg-11">
-                @Html.DisplayFor(modelItem => item.CategoryName)
+
+            <div class="row">
+                <div class="col-1 pl-1 pl-sm-3"></div>
+                <div class="col-11 p-0">
+                    <form asp-action="Edit" class="EditCategoryForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="CategoryID" value="@item.CategoryID" />
+                        <input type="hidden" asp-for="UserID" value="@item.UserID" />
+                        <div class="row">
+                            <div class="col-10 col-sm-11">
+                                <input asp-for="CategoryName" class="form-control border-0 input-boxshadow" value="@item.CategoryName" />
+                                <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["EditDuplicateNameMsg"]</span>
+                            </div>
+                            <div class="col-2 col-sm-1 pl-1">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </li>
     }
 
-    <li class="list-group-item">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-row justify-content-around">
-                <div class="col-sm-2 col-lg-1">
-                    <button type="submit" class="btn btn-primary ">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="col-sm-10 col-lg-11">
-                    <input asp-for="CategoryName" class="form-control border-0 input-boxshadow" />
-                    <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["DuplicateNameErrorMessage"]</span>
-                </div>
+    <li class="list-group-item px-1">
+        <div class="row">
+            <div class="col-1 pl-1 pl-sm-3">
+                <button type="button" class="btn btn-primary CreateCategoryButton">
+                    <i class="fas fa-plus"></i>
+                </button>
             </div>
-            <input type="hidden" asp-for="UserID" value="@ViewData["UserID"]" />
-        </form>
+            <div class="col-11 p-0">
+                <form asp-action="Create" class="CreateCategoryForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger">
+                    </div>
+                    <div class="row">
+                        <div class="col-10 col-sm-11">
+                            <input asp-for="CategoryName" class="form-control border-0 input-boxshadow" />
+                            <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["CreateDuplicateNameMsg"]</span>
+                        </div>
+                        <div class="col-2 col-sm-1 pl-1">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="UserID" value="@Model.UserID" />
+                </form>
+            </div>
+        </div>
     </li>
 </ul>
 
