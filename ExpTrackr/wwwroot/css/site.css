@@ -164,7 +164,7 @@ a:hover, a:focus {
 
 .input-boxshadow {
     box-shadow: -5px 5px 20px #CCC;
-    margin-left: 12px;
+    margin-left: .75em;
 }
 
 #CreateCategoryForm {
@@ -178,4 +178,8 @@ a:hover, a:focus {
 .rotate {
     transform: rotate(45deg);
     transition-duration: .25s;
+}
+
+.form-control {
+    padding: .1em .75em;
 }
