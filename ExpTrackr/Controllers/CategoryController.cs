@@ -72,9 +72,13 @@ namespace ExpTrackr.Controllers
             if (user.UserID != category.UserID)
                 return NotFound();
 
-            var viewModel = GetViewModel(category);
+            var viewModel = new CategoryViewModel
+            {
+                UserID = user.UserID,
+                Categories = _context.Categories.Where(c => c.UserID == user.UserID)
+            };
 
-            ViewData["CreateDuplicateNameMsg"] = "";
+            ViewData["DuplicateNameErrorMessage"] = "";
 
             try
             {
@@ -82,7 +86,7 @@ namespace ExpTrackr.Controllers
             }
             catch (NullReferenceException)
             {
-                ViewData["CreateDuplicateNameMsg"] = "Category name cannot be empty";
+                ViewData["DuplicateNameErrorMessage"] = "Category name cannot be empty";
                 return View("Index", viewModel);
             }
 
@@ -91,7 +95,7 @@ namespace ExpTrackr.Controllers
 
             if (existingCategory != null)
             {
-                ViewData["CreateDuplicateNameMsg"] = "This category already exists";
+                ViewData["DuplicateNameErrorMessage"] = "This category already exists";
                 return View("Index", viewModel);
             }
 
@@ -142,9 +146,7 @@ namespace ExpTrackr.Controllers
             if (user.UserID != category.UserID)
                 return NotFound();
 
-            var viewModel = GetViewModel(category);
-
-            ViewData["EditDuplicateNameMsg"] = "";
+            ViewData["DuplicateNameErrorMessage"] = "";
 
             try
             {
@@ -152,8 +154,9 @@ namespace ExpTrackr.Controllers
             }
             catch (NullReferenceException)
             {
-                ViewData["EditDuplicateNameMsg"] = "Category name cannot be empty";
-                return View(viewModel);
+                ViewData["DuplicateNameErrorMessage"] = "Category name cannot be empty";
+                ViewData["UserID"] = category.UserID;
+                return View(category);
             }
 
             var existingCategory = await _context.Categories
@@ -161,8 +164,9 @@ namespace ExpTrackr.Controllers
 
             if (existingCategory != null)
             {
-                ViewData["EditDuplicateNameMsg"] = "This category already exists";
-                return View(viewModel);
+                ViewData["DuplicateNameErrorMessage"] = "This category already exists";
+                ViewData["UserID"] = category.UserID;
+                return View(category);
             }
 
             if (ModelState.IsValid)
@@ -182,7 +186,7 @@ namespace ExpTrackr.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(viewModel);
+            return View(category);
         }
 
         // GET: Categories/Delete/5
@@ -237,23 +241,6 @@ namespace ExpTrackr.Controllers
                 return null;
 
             return _context.Users.FirstOrDefault(u => u.Email == aspUserEmail);
-        }
-
-        private CategoryViewModel GetViewModel(Category category)
-        {
-            var user = GetUser();
-
-            if (user == null)
-                return null;
-
-            var viewModel = new CategoryViewModel
-            {
-                UserID = user.UserID,
-                Categories = _context.Categories.Where(c => c.UserID == user.UserID),
-                CategoryID = category.CategoryID
-            };
-
-            return viewModel;
         }
     }
 }

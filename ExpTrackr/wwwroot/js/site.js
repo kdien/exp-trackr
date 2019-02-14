@@ -9,22 +9,18 @@
         });
 
     // Click plus button to show and hide form
-    $(".CreateCategoryButton").click(function () {
+    $(".create-button").click(function () {
         $(this).find("i").toggleClass("rotate");
         $(this).toggleClass("button-click");
-        $(".CreateCategoryForm").toggle(400);
-        $(".CreateCategoryForm input[type='text']").focus();
-    });
-
-    // Click edit button to show and hide form
-    $(".EditCategoryButton").click(function (e) {
-        e.preventDefault();
-        $(".EditCategoryForm").toggle(400);
+        $(".create-form").toggle(400);
+        $(".create-form input[type='text']").focus();
     });
 
     // If form has error then show it by default
-    $("form span[class*='field-validation-valid']").each(function () {
-        if ( $(this).text().length ) {
+    $("form span[class*='field-validation']").each(function () {
+        if ($(this).text().length) {
+            $(this).closest("li").find("button:first").toggleClass("button-click");
+            $(this).closest("li").find("button:first").find("i").toggleClass("rotate");
             $(this).closest("form").show();
             $("html, body").animate({ scrollTop: $(this).offset().top });
         }
