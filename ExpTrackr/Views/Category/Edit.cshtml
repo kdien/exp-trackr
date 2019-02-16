@@ -11,14 +11,14 @@
         <form asp-action="Edit" class="mb-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CategoryID" />
-            <input type="hidden" asp-for="UserID" value="@ViewData["UserID"]" />
+            <input type="hidden" asp-for="UserID" value="@Model.UserID" />
             <div class="form-row">
                 <div class="col-10">
                     <input asp-for="CategoryName" class="form-control" />
                     <span asp-validation-for="CategoryName" data-valmsg-replace="true" class="text-danger">@ViewData["DuplicateNameErrorMessage"]</span>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-success">
                         <i class="fas fa-check"></i>
                     </button>
                 </div>

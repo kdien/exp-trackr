@@ -42,27 +42,7 @@ namespace ExpTrackr.Controllers
             return View(viewModel);
         }
 
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            var user = GetUser();
-
-            if (user == null)
-                return NotFound();
-
-            var category = new Category
-            {
-                UserID = user.UserID
-            };
-
-            ViewData["UserID"] = category.UserID;
-
-            return View();
-        }
-
         // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryName,UserID")] Category category)
@@ -126,14 +106,10 @@ namespace ExpTrackr.Controllers
             if (category == null)
                 return NotFound();
 
-            ViewData["UserID"] = category.UserID;
-
             return View(category);
         }
 
         // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName,UserID")] Category category)
@@ -155,7 +131,6 @@ namespace ExpTrackr.Controllers
             catch (NullReferenceException)
             {
                 ViewData["DuplicateNameErrorMessage"] = "Category name cannot be empty";
-                ViewData["UserID"] = category.UserID;
                 return View(category);
             }
 
@@ -165,7 +140,6 @@ namespace ExpTrackr.Controllers
             if (existingCategory != null)
             {
                 ViewData["DuplicateNameErrorMessage"] = "This category already exists";
-                ViewData["UserID"] = category.UserID;
                 return View(category);
             }
 
