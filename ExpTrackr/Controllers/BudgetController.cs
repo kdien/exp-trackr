@@ -45,26 +45,20 @@ namespace ExpTrackr.Controllers
             if (user == null)
                 return NotFound();
 
-            var budget = new Budget()
+            var budget = new Budget
             {
                 UserID = user.UserID,
                 BudgetTotal = 0,
                 CreationDate = DateTime.Now.Date
             };
 
-            ViewData["UserID"] = budget.UserID;
-            ViewData["BudgetTotal"] = budget.BudgetTotal;
-            ViewData["CreationDate"] = budget.CreationDate;
-
-            return View();
+            return View(budget);
         }
 
         // POST: Budget/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
+        public async Task<IActionResult> Create([Bind("UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
         {
             var user = GetUser();
 
@@ -80,9 +74,6 @@ namespace ExpTrackr.Controllers
             catch (NullReferenceException)
             {
                 ViewData["DuplicateNameErrorMessage"] = "Budget name cannot be empty";
-                ViewData["UserID"] = budget.UserID;
-                ViewData["BudgetTotal"] = budget.BudgetTotal;
-                ViewData["CreationDate"] = budget.CreationDate;
                 return View(budget);
             }
 
@@ -92,9 +83,6 @@ namespace ExpTrackr.Controllers
             if (existingBudget != null)
             {
                 ViewData["DuplicateNameErrorMessage"] = "This budget already exists";
-                ViewData["UserID"] = budget.UserID;
-                ViewData["BudgetTotal"] = budget.BudgetTotal;
-                ViewData["CreationDate"] = budget.CreationDate;
                 return View(budget);
             }
 
@@ -125,14 +113,10 @@ namespace ExpTrackr.Controllers
             if (budget == null)
                 return NotFound();
 
-            ViewData["UserID"] = budget.UserID;
-
             return View(budget);
         }
 
         // POST: Budget/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("BudgetID,UserID,BudgetName,BudgetMax,BudgetTotal,CreationDate")] Budget budget)
@@ -154,7 +138,6 @@ namespace ExpTrackr.Controllers
             catch (NullReferenceException)
             {
                 ViewData["DuplicateNameErrorMessage"] = "Budget name cannot be empty";
-                ViewData["UserID"] = budget.UserID;
                 return View(budget);
             }
 
@@ -164,7 +147,6 @@ namespace ExpTrackr.Controllers
             if (existingBudget != null)
             {
                 ViewData["DuplicateNameErrorMessage"] = "This budget already exists";
-                ViewData["UserID"] = budget.UserID;
                 return View(budget);
             }
 

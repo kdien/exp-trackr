@@ -21,9 +21,9 @@
                 <input asp-for="BudgetMax" class="form-control" />
                 <span asp-validation-for="BudgetMax" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="UserID" value="@ViewData["UserID"]" />
-            <input type="hidden" asp-for="BudgetTotal" value="@ViewData["BudgetTotal"]" />
-            <input type="hidden" asp-for="CreationDate" value="@ViewData["CreationDate"]" />
+            <input type="hidden" asp-for="UserID" />
+            <input type="hidden" asp-for="BudgetTotal" />
+            <input type="hidden" asp-for="CreationDate" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary mr-2" />
                 <a asp-action="Index" class="btn btn-light">Cancel</a>
