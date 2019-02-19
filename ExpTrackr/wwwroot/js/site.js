@@ -8,6 +8,9 @@
             $(this).toggleClass("hover");
         });
 
+    // Hide create form by default
+    $(".create-form").hide();
+
     // Click plus button to show and hide form
     $(".create-button").click(function () {
         $(this).find("i").toggleClass("rotate");

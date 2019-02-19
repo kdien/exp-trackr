@@ -36,7 +36,7 @@ namespace ExpTrackr.Controllers
             var viewModel = new CategoryViewModel
             {
                 UserID = user.UserID,
-                Categories = _context.Categories.Where(c => c.UserID == user.UserID)
+                Categories = _context.Categories.Where(c => c.UserID == user.UserID).OrderBy(c => c.CategoryName)
             };
 
             return View(viewModel);

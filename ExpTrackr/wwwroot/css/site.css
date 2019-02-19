@@ -43,7 +43,7 @@ button.accept-policy {
 
 
 h1 {
-    font-size: 3em;
+    font-size: 2.75em;
     margin-top: 1em;
     margin-bottom: .75em;
 }
@@ -113,12 +113,10 @@ body {
     }
 
         .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
-            /*box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);*/
             box-shadow: none;
         }
 
     .btn-primary:focus, btn-primary.focus {
-        /*box-shadow: 0 0 0 0.2rem rgba(90, 160, 90, 0.5);*/
         box-shadow: none;
     }
 
@@ -150,13 +148,17 @@ body {
     color: #dae0e5 !important;
 }
 
+.btn-success {
+    border: none;
+}
+
 a {
     color: black;
 }
 
-a:hover, a:focus {
-    text-decoration: none;
-}
+    a:hover, a:focus {
+        text-decoration: none;
+    }
 
 #BudgetTable tbody tr.hover {
     cursor: pointer;
@@ -165,10 +167,6 @@ a:hover, a:focus {
 .input-boxshadow {
     box-shadow: -5px 5px 20px #CCC;
     margin-left: .75em;
-}
-
-.create-form {
-    display: none;
 }
 
 .button-click, .button-click:hover {
@@ -180,6 +178,55 @@ a:hover, a:focus {
     transition-duration: .25s;
 }
 
-.form-control {
-    padding: .1em .75em;
+ul.category-list {
+    padding-left: .5em;
+}
+
+li.category-list-item {
+    display: grid;
+    grid-template: auto / 75px 1fr;
+    padding: 1em 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+li.category-list-item:first-child {
+    border-top: 1px solid rgba(0, 0, 0, .125);
+}
+
+.category-list-item .list-button {
+    grid-column: 1 / 2;
+}
+
+.category-list-item .list-detail {
+    grid-column: 2 / 3;
+}
+
+.list-detail .create-form {
+    display: grid;
+    grid-template: auto / 1fr 55px;
+}
+
+.form-input-box {
+    grid-column: 1 / 2;
+}
+
+.form-input-button {
+    grid-column: 2 / 3;
+}
+
+.form-input-box input {
+    margin-left: 0;
+    height: auto;
+    padding: .3em .75em;
+}
+
+.form-input-button button {
+    margin: 0 1em;
+}
+
+.edit-category-form {
+    max-width: 350px;
+    display: grid;
+    grid-template: auto / 1fr 55px;
+    margin-bottom: 2em;
 }
