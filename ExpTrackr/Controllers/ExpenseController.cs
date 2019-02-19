@@ -60,11 +60,9 @@ namespace ExpTrackr.Controllers
         }
 
         // POST: Expenses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExpenseID,BudgetID,CategoryID,Description,Amount")] Expense expense)
+        public async Task<IActionResult> Create([Bind("BudgetID,CategoryID,Description,Amount")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -101,8 +99,6 @@ namespace ExpTrackr.Controllers
         }
 
         // POST: Expenses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ExpenseID,BudgetID,CategoryID,Description,Amount")] Expense expense)
@@ -127,7 +123,6 @@ namespace ExpTrackr.Controllers
 
                 return RedirectToAction("Index", new { budgetId = expense.BudgetID });
             }
-
 
             return View(expense);
         }

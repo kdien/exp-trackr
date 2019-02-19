@@ -32,7 +32,6 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="ExpenseID" />
         <input type="submit" value="Delete" class="btn btn-danger mr-2" />
         <a asp-action="Index" asp-route-budgetId="@ViewData["BudgetID"]" class="btn btn-light">Cancel</a>
     </form>

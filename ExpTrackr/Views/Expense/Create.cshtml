@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create" asp-route-budgetId="@ViewData["BudgetID"]">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="BudgetID" value="@ViewData["BudgetID"]" />
+            <input type="hidden" asp-for="BudgetID" />
             <div class="form-group">
                 <label for="CategoryID" class="control-label">Category</label>
                 <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryList"></select>
