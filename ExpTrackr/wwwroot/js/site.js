@@ -1,4 +1,14 @@
 ﻿$(function () {
+    // Add data table
+    $(".data-table").DataTable({
+        "order": [[4, "asc"]],
+        "columnDefs": [
+            { "orderable": false, "targets": 0}
+        ],
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        "responsive": true
+    });
+
     // Make the whole budget row clickable
     $("#BudgetTable tbody tr")
         .click(function () {

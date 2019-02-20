@@ -10,51 +10,53 @@
     <a asp-action="Create" class="btn btn-primary" title="Create new budget"><i class="fas fa-plus"></i> New Budget</a>
 </p>
 
-<table class="table table-hover" id="BudgetTable">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetMax)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            var totalWarning = "";
-            if (item.BudgetTotal > item.BudgetMax)
-            {
-                totalWarning = "font-weight-bold text-danger";
-            }
+<div class="table-responsive">
+    <table class="table table-hover data-table" id="BudgetTable">
+        <thead class="thead-light">
             <tr>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.BudgetID" title="Edit" class="px-2"><i class="fas fa-edit text-warning"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.BudgetID" title="Delete" class="px-2"><i class="fas fa-trash-alt text-danger"></i></a>
-                    <a asp-controller="Expense" asp-action="Index" asp-route-budgetId="@item.BudgetID"></a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BudgetName)
-                </td>
-                <td class="@totalWarning">
-                    @Html.DisplayFor(modelItem => item.BudgetTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BudgetMax)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BudgetName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BudgetTotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BudgetMax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreationDate)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var totalWarning = "";
+                if (item.BudgetTotal > item.BudgetMax)
+                {
+                    totalWarning = "font-weight-bold text-danger";
+                }
+                <tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BudgetID" title="Edit" class="px-2"><i class="fas fa-edit text-warning"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.BudgetID" title="Delete" class="px-2"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <a asp-controller="Expense" asp-action="Index" asp-route-budgetId="@item.BudgetID"></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BudgetName)
+                    </td>
+                    <td class="@totalWarning">
+                        @Html.DisplayFor(modelItem => item.BudgetTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BudgetMax)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
