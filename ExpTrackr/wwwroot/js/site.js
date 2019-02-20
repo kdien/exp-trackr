@@ -1,12 +1,13 @@
 ﻿$(function () {
     // Add data table
     $(".data-table").DataTable({
-        "order": [[4, "asc"]],
+        "aaSorting": [],
         "columnDefs": [
             { "orderable": false, "targets": 0}
         ],
         "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-        "responsive": true
+        "responsive": true,
+        "info": false
     });
 
     // Make the whole budget row clickable

@@ -13,53 +13,58 @@
         <i class="fas fa-plus"></i> Add Expense
     </a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+<div class="table-responsive">
+    <table class="table data-table">
+        <thead class="thead-light">
             <tr>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]" title="Edit" class="mr-2">
-                        <i class="fas fa-edit text-warning"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]" title="Delete">
-                        <i class="fas fa-trash-alt text-danger"></i>
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category.CategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
             </tr>
-        }
-        @if (Model.Any())
-        {
-            <tr>
-                <td colspan="3"></td>
-                <td class="font-weight-bold">@ViewData["BudgetTotal"]</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]" title="Edit" class="mr-2">
+                            <i class="fas fa-edit text-warning"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.ExpenseID" asp-route-budgetId="@ViewData["BudgetID"]" title="Delete">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                </tr>
+            }
+            @if (Model.Any())
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="font-weight-bold">@ViewData["BudgetTotal"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <br />
 <br />
