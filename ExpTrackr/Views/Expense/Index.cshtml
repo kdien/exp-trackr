@@ -59,7 +59,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="font-weight-bold">@ViewData["BudgetTotal"]</td>
+                    <td class="font-weight-bold @Html.Raw((bool)ViewData["LimitBroken"] ? "text-danger" : "")">@ViewData["BudgetTotal"]</td>
                 </tr>
             }
         </tbody>

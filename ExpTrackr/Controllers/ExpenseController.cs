@@ -202,6 +202,11 @@ namespace ExpTrackr.Controllers
             if (budget == null)
                 return null;
 
+            if (budget.BudgetTotal > budget.BudgetMax)
+                ViewData["LimitBroken"] = true;
+            else
+                ViewData["LimitBroken"] = false;
+
             ViewData["BudgetID"] = budget.BudgetID;
             ViewData["BudgetName"] = budget.BudgetName;
             ViewData["BudgetMax"] = String.Format("{0:C}", budget.BudgetMax);
