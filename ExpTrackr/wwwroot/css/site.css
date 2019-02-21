@@ -93,8 +93,9 @@ body {
     background-color: rgb(70,140,70);
 }
 
-.bg-boxes {
-    background-color: rgb(215,255,215);
+.footer {
+    height: 40px;
+    line-height: 40px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link, .btn-primary {
