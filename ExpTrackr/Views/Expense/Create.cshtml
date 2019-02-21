@@ -14,7 +14,10 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BudgetID" />
             <div class="form-group">
-                <label for="CategoryID" class="control-label">Category</label>
+                <div class="d-flex justify-content-between">
+                    <label for="CategoryID" class="control-label">Category</label>
+                    <a asp-controller="Category" asp-action="Index" class="control-label font-italic">Add new category</a>
+                </div>
                 <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryList"></select>
             </div>
             <div class="form-group">
