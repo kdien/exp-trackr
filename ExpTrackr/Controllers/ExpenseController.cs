@@ -222,7 +222,11 @@ namespace ExpTrackr.Controllers
             if (user == null)
                 return;
 
-            ViewBag.CategoryList = new SelectList(_context.Categories.Where(c => c.UserID == user.UserID), "CategoryID", "CategoryName");
+            var categories = _context.Categories
+                .Where(c => c.UserID == user.UserID)
+                .OrderBy(c => c.CategoryName);
+
+            ViewBag.CategoryList = new SelectList(categories, "CategoryID", "CategoryName");
         }
     }
 }
