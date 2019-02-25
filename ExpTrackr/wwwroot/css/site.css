@@ -42,11 +42,6 @@ h1 {
     margin-bottom: .75em;
 }
 
-h2 {
-    font-size: 2em;
-    font-weight: 100;
-}
-
 .container {
     height: 100%;
 }
@@ -83,6 +78,10 @@ body {
     br#HomePageHeader {
         display: none;
     }
+}
+
+.home-page-subheader {
+    font-weight: 100;
 }
 
 .home-page-content {
