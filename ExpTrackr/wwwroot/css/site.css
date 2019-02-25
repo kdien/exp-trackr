@@ -1,10 +1,4 @@
-﻿a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-html {
+﻿html {
     font-size: 14px;
 }
 
@@ -36,6 +30,19 @@ button.accept-policy {
     padding-top: 0;
 }
 
+a {
+    color: black;
+}
+
+    a:hover, a:focus {
+        text-decoration: none;
+    }
+
+    a.navbar-brand {
+        white-space: normal;
+        text-align: center;
+        word-break: break-all;
+    }
 
 h1 {
     font-size: 2.75em;
@@ -81,7 +88,29 @@ body {
     line-height: 40px;
 }
 
-/* Color theme stuff */
+@media (min-width: 425px) {
+    br#HomePageHeader {
+        display: none;
+    }
+}
+
+.home-page-content {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 600px;
+}
+
+    .home-page-content figure {
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
+
+        .home-page-content figure figcaption {
+            font-style: italic;
+            font-size: 105%;
+        }
+
 .bg-green-custom {
     background-color: rgb(70, 140, 70);
 }
@@ -140,14 +169,6 @@ body {
 .btn-success {
     border: none;
 }
-
-a {
-    color: black;
-}
-
-    a:hover, a:focus {
-        text-decoration: none;
-    }
 
 .login {
     background-color: whitesmoke;
