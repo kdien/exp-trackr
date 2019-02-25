@@ -3,7 +3,7 @@
     $(".data-table").DataTable({
         "aaSorting": [],
         "columnDefs": [
-            { "orderable": false, "targets": 0}
+            { "orderable": false, "targets": 0 }
         ],
         "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
         "responsive": true,

@@ -25,7 +25,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-green-custom border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ExpTrackr</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">ExpTrackr</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,13 +33,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Budget" asp-action="Index"><i class="fas fa-dollar-sign"></i> My Budgets</a>
+                            <a class="nav-link text-light" asp-controller="Budget" asp-action="Index"><i class="fas fa-dollar-sign"></i> My Budgets</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Category" asp-action="Index"><i class="fas fa-list-ul"></i> My Categories</a>
+                            <a class="nav-link text-light" asp-controller="Category" asp-action="Index"><i class="fas fa-list-ul"></i> My Categories</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -54,9 +54,18 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-light bg-green-custom">
+    <footer class="border-top footer">
         <div class="container">
-            &copy; 2019 - <a class="text-white" asp-area="" asp-controller="Home" asp-action="index">Contact</a> - <a class="text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-6">
+                    <p class="mb-0"><a asp-controller="Home" asp-action="Index" class="text-muted small">&copy; ExpTrackr 2019</a></p>
+                </div>
+                <div class="col-6 text-right">
+                    <a asp-controller="Home" asp-action="Privacy" title="Privacy Policy" class="text-muted small"><i class="fas fa-user-secret" style="font-size: 1.25em"></i></a>
+                    &nbsp;
+                    <a href="https://github.com/kdien/exp-trackr" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
