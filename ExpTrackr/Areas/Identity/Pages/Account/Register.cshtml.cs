@@ -105,10 +105,11 @@ namespace ExpTrackr.Areas.Identity.Pages.Account
                         values: new { userId = aspUser.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var emailMessage = $"Welcome to ExpTrackr!<br><br>To finish the registration process, please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
 
-                    return LocalRedirect(returnUrl);
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm Your Account", emailMessage);
+
+                    return RedirectToPage("/Account/ThankYou");
                 }
                 foreach (var error in result.Errors)
                 {
