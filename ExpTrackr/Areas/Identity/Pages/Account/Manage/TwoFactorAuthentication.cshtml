@@ -40,19 +40,19 @@
                     <button type="submit" class="btn btn-primary">Forget this browser</button>
                 </form>
             }
-            <a asp-page="./Disable2fa" class="btn btn-primary">Disable 2FA</a>
-            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+            <a asp-page="./Disable2fa" class="btn btn-danger border-0 mr-2">Disable 2FA</a>
+            <a asp-page="./GenerateRecoveryCodes" class="btn btn-light">Reset recovery codes</a>
         }
 
-        <h5>Authenticator app</h5>
+        <h5 class="mt-5">Authenticator app</h5>
         @if (!Model.HasAuthenticator)
         {
             <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
         }
         else
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Setup authenticator app</a>
-            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary mb-2 mr-2">Setup authenticator app</a>
+            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-light mb-2">Reset authenticator app</a>
         }
     </div>
 </div>
