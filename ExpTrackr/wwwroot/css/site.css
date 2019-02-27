@@ -128,25 +128,6 @@ body {
         box-shadow: none;
     }
 
-.btn-secondary {
-    background-color: rgb(140, 70, 70);
-    border: none;
-    color: white;
-}
-
-    .btn-secondary:hover {
-        background: rgb(160, 90, 90);
-    }
-
-    .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
-        background: rgb(100, 30, 30);
-        border: none;
-    }
-
-        .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus, .show > .btn-secondary.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(160, 90, 90, .5)
-        }
-
 .btn-light {
     background-color: rgb(235, 235, 235);
     border-color: rgb(235, 235, 235);
