@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ExpTrackr.Data;
+using ExpTrackr.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ExpTrackr.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ExpTrackr.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ExpTrackr
 {
@@ -37,13 +33,16 @@ namespace ExpTrackr
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var conn = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "AzureTest" ? "AzureDbConnection" : "DefaultConnection";
+            
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(conn)));
 
             services.AddDbContext<ExpTrackrContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(conn)));
+            
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            services.BuildServiceProvider().GetService<ExpTrackrContext>().Database.Migrate();
 
             services.AddDefaultIdentity<IdentityUser>(config =>
             {
